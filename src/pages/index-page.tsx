@@ -1,10 +1,36 @@
+import { useEffect } from 'react';
 import Container from '../components/container';
-import FilterList from '../components/filter-list';
+import FilterGenreList from '../components/filter-genre-list';
 import QuestCards from '../components/quest-cards';
-import SortList from '../components/sort-list';
+import FilterLevelList from '../components/filter-level-list';
+import { FilterOptions } from '../const';
 import { MainPageClass } from '../const';
+import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
+import { fetchQuestCardPreview } from '../store/api-action';
+import { questsSelectors, questsActions } from '../store/slice/quests/quests';
 
 export default function IndexPage() {
+  const dispatch = useAppDispatch();
+  const selectors = useAppSelector;
+
+  const quests = selectors(questsSelectors.quests);
+  useEffect(() => {
+    dispatch(fetchQuestCardPreview())
+      .unwrap()
+      .then(() => {
+        dispatch(questsActions.filterQuestsGenre({ filter: FilterOptions.ALL.id }));
+      })
+      .catch();
+  }, [dispatch]);
+
+  const handelSelectFilerGenreClick = (filter: string) => {
+    dispatch(questsActions.filterQuestsGenre({ filter: filter }));
+  };
+
+  const handelSelectFilerLevelClick = (filter: string) => {
+    dispatch(questsActions.filterQuestsLevel({ filter: filter }));
+  };
+
   return (
     <Container mainClass={MainPageClass.INDEX}>
       <div className="container">
@@ -17,16 +43,16 @@ export default function IndexPage() {
           <form className="filter" action="#" method="get">
             <fieldset className="filter__section">
               <legend className="visually-hidden">Тематика</legend>
-              <FilterList />
+              <FilterGenreList handelSelectFilerClick={handelSelectFilerGenreClick} />
             </fieldset>
             <fieldset className="filter__section">
               <legend className="visually-hidden">Сложность</legend>
-              <SortList />
+              <FilterLevelList handelSelectFilerLevelClick={handelSelectFilerLevelClick} />
             </fieldset>
           </form>
         </div>
         <h2 className="title visually-hidden">Выберите квест</h2>
-        <QuestCards questCards={[]} />
+        <QuestCards questCards={quests} />
       </div>
 
     </Container>

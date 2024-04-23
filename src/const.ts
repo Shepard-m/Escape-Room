@@ -20,7 +20,7 @@ export const FilterOptions = {
   ADVENTURES: {
     name: 'Приключения',
     iconName: 'adventure',
-    id: 'adventure',
+    id: 'adventures',
     size: {
       with: '36',
       height: '30',
@@ -56,7 +56,7 @@ export const FilterOptions = {
   SCI_FI: {
     name: 'Sci-fi',
     iconName: 'sci-fi',
-    id: 'sciFi',
+    id: 'sci-Fi',
     size: {
       with: '28',
       height: '30',
@@ -64,18 +64,18 @@ export const FilterOptions = {
   },
 };
 
-export const SortOption = {
+export const FilterLevelOption = {
   ANY: {
     name: 'Любой',
     id: 'any',
   },
   easy: {
     name: 'Лёгкий',
-    id: 'any',
+    id: 'easy',
   },
   middle: {
     name: 'Средний',
-    id: 'middle',
+    id: 'medium',
   },
   hard: {
     name: 'Сложный',
@@ -83,8 +83,12 @@ export const SortOption = {
   },
 };
 
-export const ApiRoute = {
+export const AppRoute = {
   INDEX_PAGE: '/',
+};
+
+export const ApiRoute = {
+  QUESTS: 'quest',
 };
 
 export const RequestStatus = {

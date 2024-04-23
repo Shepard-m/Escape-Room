@@ -6,7 +6,7 @@ import { ApiRoute } from '../const';
 export const fetchQuestCardPreview = createAsyncThunk<TQuestCardPreview[], undefined, { extra: AxiosInstance }>(
   'data/fetchQuestsPreviews',
   async (_arg, { extra: api }) => {
-    const { data } = await api.get<TQuestCardPreview[]>(ApiRoute.INDEX_PAGE);
+    const { data } = await api.get<TQuestCardPreview[]>(ApiRoute.QUESTS);
 
     return data;
   }

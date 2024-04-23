@@ -2,15 +2,24 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TQuestCardPreview } from '../../../types/quest-card-preview';
 import { fetchQuestCardPreview } from '../../api-action';
 import { RequestStatus } from '../../../const';
+import { filteredGenreQuests } from '../../../hooks/filter-genre';
+import { filteredLevelQuests } from '../../../hooks/filter-level';
+import { FilterLevelOption } from '../../../const';
 
 type TInitState = {
-  statusQuests: string,
+  statusQuests: string;
   quests: TQuestCardPreview[];
+  currentFilterLevel: string;
+  filterGenreQuests: TQuestCardPreview[];
+  initialQuest: TQuestCardPreview[];
 }
 
 const initialState: TInitState = {
   statusQuests: RequestStatus.NONE,
-  quests: []
+  currentFilterLevel: FilterLevelOption.ANY.id,
+  quests: [],
+  filterGenreQuests: [],
+  initialQuest: []
 };
 
 const questsSlice = createSlice({
@@ -21,7 +30,7 @@ const questsSlice = createSlice({
       })
       .addCase(fetchQuestCardPreview.fulfilled, (state, action) => {
         state.statusQuests = RequestStatus.SUCCESS;
-        state.quests = action.payload;
+        state.initialQuest = action.payload;
       })
       .addCase(fetchQuestCardPreview.rejected, (state) => {
         state.statusQuests = RequestStatus.FAILED;
@@ -30,10 +39,19 @@ const questsSlice = createSlice({
   initialState,
   name: 'quests',
   reducers: {
-
+    filterQuestsGenre: (state, action: PayloadAction<{ filter: string }>) => {
+      state.quests = filteredGenreQuests(state.initialQuest, action.payload.filter);
+      state.filterGenreQuests = filteredGenreQuests(state.initialQuest, action.payload.filter);
+      state.currentFilterLevel = FilterLevelOption.ANY.id;
+    },
+    filterQuestsLevel: (state, action: PayloadAction<{ filter: string }>) => {
+      state.quests = filteredLevelQuests(state.filterGenreQuests, action.payload.filter);
+    }
   },
   selectors: {
     quests: (state) => state.quests,
+    currentFilterLevel: (state) => state.currentFilterLevel,
+    filterGenreQuests: (state) => state.filterGenreQuests,
   }
 });
 

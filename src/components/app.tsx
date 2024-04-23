@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import { ApiRoute } from '../const';
+import { AppRoute } from '../const';
 import IndexPage from '../pages/index-page';
 
 export default function App() {
   return (
     <Routes>
-      <Route path='/'>
+      <Route path={AppRoute.INDEX_PAGE}>
         <Route
           index
           element={<IndexPage />}
@@ -14,4 +14,3 @@ export default function App() {
     </Routes>
   );
 }
-{/*  */ }
