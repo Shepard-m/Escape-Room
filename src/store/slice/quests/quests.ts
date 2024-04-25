@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TQuestCardPreview } from '../../../types/quest-card-preview';
-import { fetchQuestCardPreview } from '../../api-action';
+import { fetchQuestsCardPreview } from '../../api-action';
 import { RequestStatus } from '../../../const';
 import { filteredGenreQuests } from '../../../hooks/filter-genre';
 import { filteredLevelQuests } from '../../../hooks/filter-level';
@@ -25,14 +25,15 @@ const initialState: TInitState = {
 const questsSlice = createSlice({
   extraReducers(builder) {
     builder
-      .addCase(fetchQuestCardPreview.pending, (state) => {
+      .addCase(fetchQuestsCardPreview.pending, (state) => {
         state.statusQuests = RequestStatus.LOADING;
       })
-      .addCase(fetchQuestCardPreview.fulfilled, (state, action) => {
+      .addCase(fetchQuestsCardPreview.fulfilled, (state, action) => {
         state.statusQuests = RequestStatus.SUCCESS;
         state.initialQuest = action.payload;
+        state.quests = filteredGenreQuests(state.initialQuest, FilterLevelOption.ANY.id);
       })
-      .addCase(fetchQuestCardPreview.rejected, (state) => {
+      .addCase(fetchQuestsCardPreview.rejected, (state) => {
         state.statusQuests = RequestStatus.FAILED;
       });
   },

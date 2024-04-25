@@ -3,10 +3,9 @@ import Container from '../components/container';
 import FilterGenreList from '../components/filter-genre-list';
 import QuestCards from '../components/quest-cards';
 import FilterLevelList from '../components/filter-level-list';
-import { FilterOptions } from '../const';
 import { MainPageClass } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
-import { fetchQuestCardPreview } from '../store/api-action';
+import { fetchQuestsCardPreview } from '../store/api-action';
 import { questsSelectors, questsActions } from '../store/slice/quests/quests';
 
 export default function IndexPage() {
@@ -15,12 +14,7 @@ export default function IndexPage() {
 
   const quests = selectors(questsSelectors.quests);
   useEffect(() => {
-    dispatch(fetchQuestCardPreview())
-      .unwrap()
-      .then(() => {
-        dispatch(questsActions.filterQuestsGenre({ filter: FilterOptions.ALL.id }));
-      })
-      .catch();
+    dispatch(fetchQuestsCardPreview());
   }, [dispatch]);
 
   const handelSelectFilerGenreClick = (filter: string) => {

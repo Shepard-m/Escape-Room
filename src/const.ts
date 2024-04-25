@@ -85,6 +85,8 @@ export const FilterLevelOption = {
 
 export const AppRoute = {
   INDEX_PAGE: '/',
+  QUEST_PAGE: '/quest',
+  LOGIN_PAGE: '/login',
 };
 
 export const ApiRoute = {
@@ -96,4 +98,25 @@ export const RequestStatus = {
   LOADING: 'loading',
   FAILED: 'failed',
   NONE: 'none'
+};
+
+export const AuthorizationStatus = {
+  AUTH: 'AUTH',
+  NO_AUTH: 'NO_AUTH',
+  UN_KNOWN: 'UNKNOWN',
+};
+
+export const ErrorMessage = {
+  EMAIL: 'an incorrect email has been entered',
+  password: 'an incorrect password has been entered',
+};
+
+export const DefaultValue = {
+  TODAY: 'today',
+  TOMORROW: 'tomorrow',
+};
+
+export const DataFormat = {
+  HOUR: 'H',
+  MINUTE: 'm'
 };
