@@ -1,6 +1,6 @@
 import Container from '../components/container';
 import { Link, useParams } from 'react-router-dom';
-import { MainPageClass } from '../const';
+import { AppRoute, MainPageClass } from '../const';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
 import { fetchQuest } from '../store/api-action';
@@ -49,7 +49,9 @@ export default function QuestPage() {
               </li>
             </ul>
             <p className="quest-page__description">{quest.description}</p>
-            <Link className="btn btn--accent btn--cta quest-page__btn" to="booking.html">Забронировать</Link>
+            <Link className="btn btn--accent btn--cta quest-page__btn" to={`${AppRoute.BOOKING_PAGE}/${questId as string}`}>
+              Забронировать
+            </Link>
           </div>
         </div>
       </div>

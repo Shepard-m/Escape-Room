@@ -4,6 +4,7 @@ import IndexPage from '../pages/index-page';
 import QuestPage from '../pages/quest-page';
 import LoginPage from '../pages/login-page';
 import ProtectedRoute from './private-route';
+import BookingQuestPage from '../pages/booking-quest-page';
 
 export default function App() {
   return (
@@ -19,7 +20,12 @@ export default function App() {
         />
         <Route
           path={AppRoute.LOGIN_PAGE}
-          element={<ProtectedRoute onlyUnAuth><LoginPage /></ProtectedRoute>}
+          element={<LoginPage />}
+        />
+        <Route
+          path={`${AppRoute.BOOKING_PAGE}/:bookingId`}
+          element={<BookingQuestPage />}
+        // element={<BookingQuestPage />}
         />
       </Route>
     </Routes>

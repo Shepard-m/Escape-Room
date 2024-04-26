@@ -87,10 +87,13 @@ export const AppRoute = {
   INDEX_PAGE: '/',
   QUEST_PAGE: '/quest',
   LOGIN_PAGE: '/login',
+  BOOKING_PAGE: '/booking',
 };
 
 export const ApiRoute = {
   QUESTS: 'quest',
+  LOGIN: '/login',
+  BOOKING: 'booking',
 };
 
 export const RequestStatus = {
@@ -119,4 +122,19 @@ export const DefaultValue = {
 export const DataFormat = {
   HOUR: 'H',
   MINUTE: 'm'
+};
+
+export const IconPinMap = {
+  DEFAULT: '../markup/img/svg/pin-default.svg',
+  ACTIVE: '../markup/img/svg/pin-active.svg',
+};
+
+export const MapOptions = {
+  CITY_LOCATION: {
+    lat: 59.9386,
+    lng: 30.3141,
+    zoom: 10
+  },
+  WIDTH: '100%',
+  HEIGHT: '100%'
 };
