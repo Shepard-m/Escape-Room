@@ -88,12 +88,15 @@ export const AppRoute = {
   QUEST_PAGE: '/quest',
   LOGIN_PAGE: '/login',
   BOOKING_PAGE: '/booking',
+  FAVORITE: '/favorite',
+  CONTACTS: '/contacts'
 };
 
 export const ApiRoute = {
   QUESTS: 'quest',
   LOGIN: '/login',
   BOOKING: 'booking',
+  FAVORITE: 'reservation'
 };
 
 export const RequestStatus = {
@@ -137,4 +140,22 @@ export const MapOptions = {
   },
   WIDTH: '100%',
   HEIGHT: '100%'
+};
+
+export const DataLocationContactsPage = {
+  location: {
+    address: '',
+    coords: [59.968322, 30.31735,]
+  },
+  slots: {
+    today: [{
+      time: '',
+      isAvailable: false
+    }],
+    tomorrow: [{
+      time: '',
+      isAvailable: false
+    }]
+  },
+  id: '1',
 };

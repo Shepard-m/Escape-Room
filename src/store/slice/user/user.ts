@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, RequestStatus } from '../../../const';
-import { fetchUserLogin, fetchUserLogout } from '../../api-action';
+import { fetchGetUserData, fetchUserLogin, fetchUserLogout } from '../../api-action';
 import { dropToken } from '../../../service/token';
 
 type TInitialState = {
@@ -39,6 +39,17 @@ const userSlice = createSlice({
         dropToken();
       })
       .addCase(fetchUserLogout.rejected, (state) => {
+        state.statusRequestUser = RequestStatus.FAILED;
+      })
+      .addCase(fetchGetUserData.pending, (state) => {
+        state.statusRequestUser = RequestStatus.LOADING;
+      })
+      .addCase(fetchGetUserData.fulfilled, (state, action) => {
+        state.statusRequestUser = RequestStatus.SUCCESS;
+        state.user = action.payload.email;
+        state.authorizationStatus = AuthorizationStatus.AUTH;
+      })
+      .addCase(fetchGetUserData.rejected, (state) => {
         state.statusRequestUser = RequestStatus.FAILED;
       });
   },

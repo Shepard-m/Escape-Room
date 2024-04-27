@@ -3,14 +3,20 @@ import { AppRoute } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
 import { userSelectors } from '../store/slice/user/user';
 import { getToken } from '../service/token';
-import { fetchUserLogout } from '../store/api-action';
-import { SyntheticEvent } from 'react';
+import { fetchGetUserData, fetchUserLogout } from '../store/api-action';
+import { SyntheticEvent, useEffect } from 'react';
 
 export default function Header() {
   const selectors = useAppSelector;
   const token = getToken();
   const dispatch = useAppDispatch();
   const authorizationStatus = selectors(userSelectors.authorizationStatus);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchGetUserData());
+    }
+  }, [token]);
 
   function onLogoutUserClick(evt: SyntheticEvent<HTMLAnchorElement>) {
     evt.preventDefault();
@@ -33,11 +39,11 @@ export default function Header() {
               <Link className="link active" to={AppRoute.INDEX_PAGE}>Квесты</Link>
             </li>
             <li className="main-nav__item">
-              <a className="link" href="contacts.html">Контакты</a>
+              <Link className="link" to={AppRoute.CONTACTS}>Контакты</Link>
             </li>
             {authorizationStatus &&
               <li className="main-nav__item">
-                <a className="link" href="my-quests.html">Мои бронирования</a>
+                <Link className="link" to={AppRoute.FAVORITE}>Мои бронирования</Link>
               </li>}
           </ul>
         </nav>

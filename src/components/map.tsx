@@ -10,6 +10,7 @@ import { bookingActions } from '../store/slice/booking/booking';
 type MapProps = {
   quests: TBooking[];
   selectedQuestId: string;
+  isContacts?: boolean;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -22,7 +23,7 @@ const activeCustomIcon = leaflet.icon({
   iconSize: [23, 42],
 });
 
-function Map({ quests, selectedQuestId }: MapProps): JSX.Element {
+function Map({ quests, selectedQuestId, isContacts }: MapProps): JSX.Element {
   const dispatch = useAppDispatch();
   const mapRef = useRef(null);
   const map = useMap(mapRef);
@@ -40,7 +41,9 @@ function Map({ quests, selectedQuestId }: MapProps): JSX.Element {
         },).addTo(markerLayer);
 
         point.on('click', () => {
-          dispatch(bookingActions.selectBooking({ booking: quest.id }));
+          if (!isContacts) {
+            dispatch(bookingActions.selectBooking({ booking: quest.id }));
+          }
         });
       });
 

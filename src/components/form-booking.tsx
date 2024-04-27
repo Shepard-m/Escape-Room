@@ -1,7 +1,7 @@
 import { DefaultValue } from '../const';
 import BookingListDate from '../components/booking-list-date';
 import { TBooking } from '../types/booking';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { TBookingResponseData } from '../types/booking-respones-data';
 import { useAppDispatch } from '../hooks/indexStore';
 import { fetchSendBookingQuest } from '../store/api-action';
@@ -17,14 +17,18 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState<TBookingResponseData>({
-    placeId: questId,
+    placeId: currentQuest.id,
     date: '',
     time: '',
     contactPerson: '',
     phone: '',
-    withChildren: false,
+    withChildren: true,
     peopleCount: 0,
   });
+
+  useEffect(() => {
+    setFormData({ ...formData, placeId: currentQuest.id });
+  }, [currentQuest]);
 
   function onInputNameChange(e: SyntheticEvent<HTMLInputElement>) {
     setFormData({ ...formData, contactPerson: e.currentTarget.value });
@@ -44,7 +48,7 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
 
   function onSendDataBookingSubmit(evt: SyntheticEvent<HTMLFormElement>) {
     evt.preventDefault();
-    dispatch(fetchSendBookingQuest(formData));
+    dispatch(fetchSendBookingQuest({ formData, id: questId }));
   }
 
   return (

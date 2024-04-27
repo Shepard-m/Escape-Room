@@ -1,4 +1,4 @@
 export type TBookingData = {
   time: string;
-  isAvailable: false;
+  isAvailable: boolean;
 };

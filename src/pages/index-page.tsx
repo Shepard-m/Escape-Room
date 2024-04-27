@@ -15,7 +15,7 @@ export default function IndexPage() {
   const quests = selectors(questsSelectors.quests);
   useEffect(() => {
     dispatch(fetchQuestsCardPreview());
-  }, [dispatch]);
+  }, []);
 
   const handelSelectFilerGenreClick = (filter: string) => {
     dispatch(questsActions.filterQuestsGenre({ filter: filter }));

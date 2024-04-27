@@ -27,6 +27,6 @@ export default function ProtectedRoute({ children, onlyUnAuth }: TProtectedRoute
     console.log('2', !user, !onlyUnAuth)
     return <Navigate state={{ from: location }} to={AppRoute.LOGIN_PAGE} />;
   }
-
+  console.log('3', user, onlyUnAuth)
   return children;
 }

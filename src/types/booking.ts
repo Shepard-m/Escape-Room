@@ -1,11 +1,9 @@
 import { TBookingData } from './booking-data';
+import { TLocation } from './location';
 
 export type TBooking = {
   id: string;
-  location: {
-    address: string;
-    coords: number[];
-  };
+  location: TLocation;
   slots: {
     today: TBookingData[];
     tomorrow: TBookingData[];

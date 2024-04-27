@@ -8,6 +8,7 @@ import { saveToken } from '../service/token';
 import { TUserData } from '../types/user-data';
 import { TBooking } from '../types/booking';
 import { TBookingResponseData } from '../types/booking-respones-data';
+import { TFavorite } from '../types/favorite';
 
 export const fetchQuestsCardPreview = createAsyncThunk<TQuestCardPreview[], undefined, { extra: AxiosInstance }>(
   'data/fetchQuestsPreviews',
@@ -37,6 +38,15 @@ export const fetchUserLogin = createAsyncThunk<string, TAuthData, { extra: Axios
   }
 );
 
+export const fetchGetUserData = createAsyncThunk<TUserData, undefined, { extra: AxiosInstance }>(
+  'data/fetchGetUserData',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<TUserData>(ApiRoute.LOGIN);
+
+    return data;
+  }
+);
+
 export const fetchUserLogout = createAsyncThunk<void, undefined, { extra: AxiosInstance }>(
   'data/fetchUserLogout',
   async (_arg, { extra: api }) => {
@@ -53,11 +63,25 @@ export const fetchBookingQuest = createAsyncThunk<TBooking[], string, { extra: A
   }
 );
 
-export const fetchSendBookingQuest = createAsyncThunk<void, TBookingResponseData, { extra: AxiosInstance }>(
+export const fetchSendBookingQuest = createAsyncThunk<void, { formData: TBookingResponseData; id: string }, { extra: AxiosInstance }>(
   'data/fetchSendBookingQuest',
-  async (quest, { extra: api }) => {
-    await api.post(`${ApiRoute.QUESTS}/${quest.placeId}/${ApiRoute.BOOKING}`, quest);
+  async ({ formData, id }, { extra: api }) => {
+    await api.post(`${ApiRoute.QUESTS}/${id}/${ApiRoute.BOOKING}`, formData);
   }
 );
 
-// date: quest.data, time: quest.time, contactPerson: quest.contactPerson,
+export const fetchFavorite = createAsyncThunk<TFavorite[], undefined, { extra: AxiosInstance }>(
+  'data/fetchFavorite',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<TFavorite[]>(ApiRoute.FAVORITE);
+
+    return data;
+  }
+);
+
+export const fetchFavoriteDeleteQuest = createAsyncThunk<void, string, { extra: AxiosInstance }>(
+  'data/fetchFavoriteDeleteQuest',
+  async (id, { extra: api }) => {
+    await api.delete(`${ApiRoute.FAVORITE}/${id}`);
+  }
+);
