@@ -1,10 +1,11 @@
-import { DefaultValue } from '../const';
+import { AppRoute, DefaultValue } from '../const';
 import BookingListDate from '../components/booking-list-date';
 import { TBooking } from '../types/booking';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { TBookingResponseData } from '../types/booking-respones-data';
 import { useAppDispatch } from '../hooks/indexStore';
 import { fetchSendBookingQuest } from '../store/api-action';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 type TFormBooking = {
   currentQuest: TBooking;
@@ -13,7 +14,7 @@ type TFormBooking = {
 }
 
 export default function FormBooking({ currentQuest, countPeople, questId }: TFormBooking) {
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState<TBookingResponseData>({
@@ -48,7 +49,11 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
 
   function onSendDataBookingSubmit(evt: SyntheticEvent<HTMLFormElement>) {
     evt.preventDefault();
-    dispatch(fetchSendBookingQuest({ formData, id: questId }));
+    dispatch(fetchSendBookingQuest({ formData, id: questId }))
+      .unwrap()
+      .then(() => {
+        navigate(AppRoute.FAVORITE);
+      });
   }
 
   return (

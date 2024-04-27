@@ -89,14 +89,15 @@ export const AppRoute = {
   LOGIN_PAGE: '/login',
   BOOKING_PAGE: '/booking',
   FAVORITE: '/favorite',
-  CONTACTS: '/contacts'
+  CONTACTS: '/contacts',
+  NOT_FOUND: '*',
 };
 
 export const ApiRoute = {
   QUESTS: 'quest',
   LOGIN: '/login',
   BOOKING: 'booking',
-  FAVORITE: 'reservation'
+  FAVORITE: 'reservation',
 };
 
 export const RequestStatus = {
