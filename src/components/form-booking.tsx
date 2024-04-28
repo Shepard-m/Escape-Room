@@ -1,11 +1,14 @@
-import { AppRoute, DefaultValue } from '../const';
+import { AppRoute, DefaultValue, TextErrors } from '../const';
 import BookingListDate from '../components/booking-list-date';
 import { TBooking } from '../types/booking';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { TBookingResponseData } from '../types/booking-respones-data';
 import { useAppDispatch } from '../hooks/indexStore';
 import { fetchSendBookingQuest } from '../store/api-action';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { TFormBookingValidation } from '../types/form-booking';
 
 type TFormBooking = {
   currentQuest: TBooking;
@@ -16,6 +19,8 @@ type TFormBooking = {
 export default function FormBooking({ currentQuest, countPeople, questId }: TFormBooking) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const { register, handleSubmit, formState: { errors } } = useForm<TFormBookingValidation>();
 
   const [formData, setFormData] = useState<TBookingResponseData>({
     placeId: currentQuest.id,
@@ -47,17 +52,21 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
     setFormData({ ...formData, peopleCount: +e.currentTarget.value });
   }
 
-  function onSendDataBookingSubmit(evt: SyntheticEvent<HTMLFormElement>) {
-    evt.preventDefault();
+  function onSendDataBookingSubmit() {
     dispatch(fetchSendBookingQuest({ formData, id: questId }))
       .unwrap()
       .then(() => {
         navigate(AppRoute.FAVORITE);
+      })
+      .catch(() => {
+        toast.error(TextErrors.BOOKING);
       });
   }
 
   return (
-    <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post" onSubmit={onSendDataBookingSubmit}>
+    <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post" onSubmit={(event) =>
+      void handleSubmit(onSendDataBookingSubmit)(event)}
+    >
       <fieldset className="booking-form__section">
         <legend className="visually-hidden">Выбор даты и времени</legend>
         <fieldset className="booking-form__date-section">
@@ -73,15 +82,38 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
         <legend className="visually-hidden">Контактная информация</legend>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="name">Ваше имя</label>
-          <input type="text" id="name" name="name" placeholder="Имя" required pattern="[А-Яа-яЁёA-Za-z'- ]{1,}" onChange={onInputNameChange} />
+          <input type="text" id="name" placeholder="Имя" {...register('name', {
+            required: TextErrors.NAME,
+            pattern: {
+              value: /^[a-zA-Zа-яА-Я]{1,15}$/,
+              message: TextErrors.NAME
+            },
+          })} required onChange={onInputNameChange}
+          />
+          {errors?.name &&
+            <span style={{ color: 'red' }}> {errors.name.message} </span>}
         </div>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>
-          <input type="tel" id="tel" name="tel" placeholder="Телефон" required pattern="[0-9]{10,}" onChange={onInputPhoneChange} />
+          <input type="tel" id="tel" placeholder="Телефон" {...register('tel', {
+            required: TextErrors.PHONE,
+            validate: {
+
+            }
+          })} required onChange={onInputPhoneChange} pattern="[А-Яа-яЁёA-Za-z'- ]{1,}"
+          />
+
+          {errors?.tel &&
+            <span style={{ color: 'red' }}> {errors.tel.message} </span>}
         </div>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="person">Количество участников</label>
-          <input type="number" id="person" name="person" placeholder="Количество участников" minLength={countPeople[0]} maxLength={countPeople[1]} required onChange={onInputPeopleCountChange} />
+          <input type="number" id="person" placeholder="Количество участников" min={countPeople[0]} max={countPeople[1]} {...register('person', {
+            required: `${TextErrors.PERSON} мин/мах количество игроков: ${countPeople[0]}/${countPeople[1]}`,
+          })} required onChange={onInputPeopleCountChange}
+          />
+          {errors?.person &&
+            <span style={{ color: 'red' }}> {errors.person.message} </span>}
         </div>
         <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
           <input type="checkbox" id="children" name="children" defaultChecked />

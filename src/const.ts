@@ -44,7 +44,7 @@ export const FilterOptions = {
       height: '30',
     }
   },
-  Detective: {
+  DETECTIVE: {
     name: 'Детектив',
     iconName: 'detective',
     id: 'detective',
@@ -56,7 +56,7 @@ export const FilterOptions = {
   SCI_FI: {
     name: 'Sci-fi',
     iconName: 'sci-fi',
-    id: 'sci-Fi',
+    id: 'sci-fi',
     size: {
       with: '28',
       height: '30',
@@ -159,4 +159,60 @@ export const DataLocationContactsPage = {
     }]
   },
   id: '1',
+};
+
+export const ListDataNamePage = {
+  QUEST: 'quest',
+  CONTACTS: 'contacts',
+  FAVORITES: 'favorites',
+};
+
+export const LevelTranslate = {
+  HARD: {
+    rus: 'сложный',
+    eng: 'hard'
+  },
+  MEDIUM: {
+    rus: 'средний',
+    eng: 'medium'
+  },
+  EASY: {
+    rus: 'легкий',
+    eng: 'easy'
+  },
+};
+
+export const GenreTranslate = {
+  HORROR: {
+    rus: 'ужасы',
+    eng: 'horror'
+  },
+  MYSTIC: {
+    rus: 'мсистика',
+    eng: 'mystic'
+  },
+  DETECTIVE: {
+    rus: 'детектив',
+    eng: 'detective'
+  },
+  ADVENTURES: {
+    rus: 'приключение',
+    eng: 'adventures'
+  },
+  SCI_FI: {
+    rus: 'легкий',
+    eng: 'easy'
+  },
+};
+
+export const TextErrors = {
+  LOGIN: 'Произошла ошибка авторизация.',
+  BOOKING: 'Произошла ошибка бронирования мероприятия.',
+  LOGIN_EMAILS: 'Некорректная почта.',
+  LOGIN_PASSWORD: 'Некорректный пароль. Длина пароля 3-15 символов.',
+  LOGOUT: 'Не удалось выйти из аккаунта',
+  NAME: 'Некорректное имя. Длина имени 1-15 символов',
+  PHONE: 'Некорректный телефон',
+  PERSON: 'Некорректное количество участников',
+  FAVORITE_DELETE: 'Не удалось удалить мероприятяие из избранного',
 };

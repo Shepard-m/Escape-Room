@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { TQuestCardPreview } from '../types/quest-card-preview';
-import { AppRoute } from '../const';
+import { AppRoute, TextErrors } from '../const';
 import { useAppDispatch } from '../hooks/indexStore';
 import { fetchFavoriteDeleteQuest } from '../store/api-action';
 import { favoriteActions } from '../store/slice/favorite/favorite';
+import { questsActions } from '../store/slice/quests/quests';
+import { translateLevel } from '../utils/utils';
+import { toast } from 'react-toastify';
 
 type TQuestCard = {
   questCard: TQuestCardPreview;
@@ -17,17 +20,24 @@ type TQuestCard = {
 
 export default function QuestCard({ questCard, isFavorite, peopleCount, date, time, location, id }: TQuestCard) {
   const dispatch = useAppDispatch();
-
+  const level = translateLevel(questCard.level);
   function onDeleteFromFavoritesSubmit() {
     dispatch(fetchFavoriteDeleteQuest(id as string))
       .unwrap()
       .then(() => {
         dispatch(favoriteActions.deleteQuest({ id: id as string }));
+      })
+      .catch(() => {
+        toast.error(TextErrors.FAVORITE_DELETE);
       });
   }
 
+  function onSelectActivePageClick() {
+    dispatch(questsActions.selectActivePage({ activePage: '' }));
+  }
+
   return (
-    <div className="quest-card">
+    <div className="quest-card" onClick={onSelectActivePageClick}>
       <div className="quest-card__img">
         <Link to={`${AppRoute.QUEST_PAGE}/${questCard.id}`}>
           <picture>
@@ -54,7 +64,7 @@ export default function QuestCard({ questCard, isFavorite, peopleCount, date, ti
             <svg width={14} height={14} aria-hidden="true">
               <use xlinkHref="#icon-level" />
             </svg>
-            {questCard.level}
+            {level}
           </li>
         </ul>
         {isFavorite &&

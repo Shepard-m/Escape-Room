@@ -3,8 +3,10 @@ import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
 import { fetchFavorite, fetchQuestsCardPreview } from '../store/api-action';
 import { favoriteSelectors } from '../store/slice/favorite/favorite';
 import Container from '../components/container';
-import { MainPageClass } from '../const';
+import { ListDataNamePage, MainPageClass } from '../const';
 import FavoriteCards from '../components/favorites-cards';
+import EmptyFavoritePage from '../components/empty-favorite-page/empty-favorite-page';
+import { questsActions } from '../store/slice/quests/quests';
 
 export default function FavoriteQuestPage() {
   const dispatch = useAppDispatch();
@@ -15,6 +17,7 @@ export default function FavoriteQuestPage() {
   useEffect(() => {
     dispatch(fetchFavorite());
     dispatch(fetchQuestsCardPreview());
+    dispatch(questsActions.selectActivePage({ activePage: ListDataNamePage.FAVORITES }));
   }, [dispatch]);
 
   return (
@@ -30,7 +33,7 @@ export default function FavoriteQuestPage() {
           <div className="page-content__title-wrapper">
             <h1 className="title title--size-m page-content__title">Мои бронирования</h1>
           </div>
-          {favorites !== undefined && <FavoriteCards favoriteQuest={favorites} isFavorite />}
+          {favorites?.length as number > 0 && favorites !== undefined ? <FavoriteCards favoriteQuest={favorites} isFavorite /> : <EmptyFavoritePage />}
         </div>
       </div>
     </Container>

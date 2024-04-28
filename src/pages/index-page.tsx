@@ -3,7 +3,7 @@ import Container from '../components/container';
 import FilterGenreList from '../components/filter-genre-list';
 import QuestCards from '../components/quest-cards';
 import FilterLevelList from '../components/filter-level-list';
-import { MainPageClass } from '../const';
+import { ListDataNamePage, MainPageClass } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
 import { fetchQuestsCardPreview } from '../store/api-action';
 import { questsSelectors, questsActions } from '../store/slice/quests/quests';
@@ -15,6 +15,7 @@ export default function IndexPage() {
   const quests = selectors(questsSelectors.quests);
   useEffect(() => {
     dispatch(fetchQuestsCardPreview());
+    dispatch(questsActions.selectActivePage({ activePage: ListDataNamePage.QUEST }));
   }, []);
 
   const handelSelectFilerGenreClick = (filter: string) => {
@@ -48,7 +49,6 @@ export default function IndexPage() {
         <h2 className="title visually-hidden">Выберите квест</h2>
         <QuestCards questCards={quests} />
       </div>
-
     </Container>
   );
 }

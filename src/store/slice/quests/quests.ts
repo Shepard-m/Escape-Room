@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TQuestCardPreview } from '../../../types/quest-card-preview';
 import { fetchQuestsCardPreview } from '../../api-action';
-import { RequestStatus } from '../../../const';
+import { ListDataNamePage, RequestStatus } from '../../../const';
 import { filteredGenreQuests } from '../../../hooks/filter-genre';
 import { filteredLevelQuests } from '../../../hooks/filter-level';
 import { FilterLevelOption } from '../../../const';
@@ -12,6 +12,7 @@ type TInitState = {
   currentFilterLevel: string;
   filterGenreQuests: TQuestCardPreview[];
   initialQuest: TQuestCardPreview[];
+  activePage: string;
 }
 
 const initialState: TInitState = {
@@ -19,7 +20,8 @@ const initialState: TInitState = {
   currentFilterLevel: FilterLevelOption.ANY.id,
   quests: [],
   filterGenreQuests: [],
-  initialQuest: []
+  initialQuest: [],
+  activePage: ListDataNamePage.QUEST
 };
 
 const questsSlice = createSlice({
@@ -31,6 +33,7 @@ const questsSlice = createSlice({
       .addCase(fetchQuestsCardPreview.fulfilled, (state, action) => {
         state.statusQuests = RequestStatus.SUCCESS;
         state.initialQuest = action.payload;
+        state.filterGenreQuests = action.payload;
         state.quests = filteredGenreQuests(state.initialQuest, FilterLevelOption.ANY.id);
       })
       .addCase(fetchQuestsCardPreview.rejected, (state) => {
@@ -47,12 +50,16 @@ const questsSlice = createSlice({
     },
     filterQuestsLevel: (state, action: PayloadAction<{ filter: string }>) => {
       state.quests = filteredLevelQuests(state.filterGenreQuests, action.payload.filter);
+    },
+    selectActivePage: (state, action: PayloadAction<{ activePage: string }>) => {
+      state.activePage = action.payload.activePage;
     }
   },
   selectors: {
     quests: (state) => state.quests,
     currentFilterLevel: (state) => state.currentFilterLevel,
     filterGenreQuests: (state) => state.filterGenreQuests,
+    activePage: (state) => state.activePage,
   }
 });
 

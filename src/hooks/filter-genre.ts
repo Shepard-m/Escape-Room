@@ -9,7 +9,7 @@ export function filteredGenreQuests(initialQuests: TQuestCardPreview[], filter: 
       return initialQuests.filter((quest) => quest.type === filter);
     case FilterOptions.MYSTICISM.id:
       return initialQuests.filter((quest) => quest.type === filter);
-    case FilterOptions.Detective.id:
+    case FilterOptions.DETECTIVE.id:
       return initialQuests.filter((quest) => quest.type === filter);
     case FilterOptions.SCI_FI.id:
       return initialQuests.filter((quest) => quest.type === filter);

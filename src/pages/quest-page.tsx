@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
 import { fetchQuest } from '../store/api-action';
 import { questSelectors } from '../store/slice/quest/quest';
+import { translateGenre, translateLevel } from '../utils/utils';
 
 export default function QuestPage() {
   const dispatch = useAppDispatch();
@@ -14,7 +15,8 @@ export default function QuestPage() {
     dispatch(fetchQuest(questId as string));
   }, [dispatch]);
   const quest = selectors(questSelectors.currentQuest);
-
+  const genre = translateGenre(quest?.type as string);
+  const level = translateLevel(quest?.level as string);
   if (quest === undefined) {
     return;
   }
@@ -33,7 +35,7 @@ export default function QuestPage() {
             <h1 className="title title--size-l title--uppercase quest-page__title">{quest.title}</h1>
             <p className="subtitle quest-page__subtitle">
               <span className="visually-hidden">Жанр:</span>
-              {quest.type}
+              {genre}
             </p>
             <ul className="tags tags--size-l quest-page__tags">
               <li className="tags__item">
@@ -45,7 +47,7 @@ export default function QuestPage() {
                 <svg width={14} height={14} aria-hidden="true">
                   <use xlinkHref="#icon-level" />
                 </svg>
-                {quest.level}
+                {level}
               </li>
             </ul>
             <p className="quest-page__description">{quest.description}</p>

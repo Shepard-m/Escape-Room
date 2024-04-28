@@ -1,8 +1,17 @@
+import { useEffect } from 'react';
 import Container from '../components/container';
 import Map from '../components/map';
-import { DataLocationContactsPage, MainPageClass } from '../const';
+import { DataLocationContactsPage, ListDataNamePage, MainPageClass } from '../const';
+import { useAppDispatch } from '../hooks/indexStore';
+import { questsActions } from '../store/slice/quests/quests';
 
 export default function ContactsPage() {
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(questsActions.selectActivePage({ activePage: ListDataNamePage.CONTACTS }));
+  });
   return (
     <Container mainClass={MainPageClass.CONTACTS}>
       <div>
@@ -55,3 +64,4 @@ export default function ContactsPage() {
     </Container>
   );
 }
+

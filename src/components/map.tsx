@@ -1,4 +1,4 @@
-import leaflet, { marker } from 'leaflet';
+import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { memo, useEffect, useRef } from 'react';
 import { IconPinMap, MapOptions } from '../const';

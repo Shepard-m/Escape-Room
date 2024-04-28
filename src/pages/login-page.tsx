@@ -2,15 +2,16 @@ import { SyntheticEvent, useState } from 'react';
 import { useAppDispatch } from '../hooks/indexStore';
 import { fetchUserLogin } from '../store/api-action';
 import Container from '../components/container';
-import { ErrorMessage, MainPageClass } from '../const';
+import { ErrorMessage, MainPageClass, TextErrors } from '../const';
 import { useForm } from 'react-hook-form';
 import { TValidationFormLogin } from '../types/validation-form-login';
+import { toast } from 'react-toastify';
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
 
 
-  const { register, formState: { errors } } = useForm<TValidationFormLogin>();
+  const { register, handleSubmit, formState: { errors } } = useForm<TValidationFormLogin>();
 
   const [userData, setUserData] = useState({ email: '', password: '' });
 
@@ -21,13 +22,16 @@ export default function LoginPage() {
     setUserData({ ...userData, password: evt.currentTarget.value });
   }
 
-  function onSendUserDataSubmit(evt: SyntheticEvent<HTMLFormElement>) {
-    evt.preventDefault();
-    dispatch(fetchUserLogin(userData));
+  function onSendUserDataSubmit() {
+    dispatch(fetchUserLogin(userData))
+      .unwrap()
+      .catch(() => {
+        toast.error(TextErrors.LOGIN);
+      });
   }
 
   return (
-    <Container mainClass={MainPageClass.LOGIN}>
+    <Container mainClass={MainPageClass.LOGIN} isLogin>
       <div>
         <div className="decorated-page__decor" aria-hidden="true">
           <picture>
@@ -36,28 +40,36 @@ export default function LoginPage() {
         </div>
         <div className="container container--size-l">
           <div className="login__form">
-            <form className="login-form" action="https://echo.htmlacademy.ru/" method="post" onSubmit={onSendUserDataSubmit}>
+            <form className="login-form" action="https://echo.htmlacademy.ru/" method="post" onSubmit={(event) =>
+              void handleSubmit(onSendUserDataSubmit)(event)}
+            >
               <div className="login-form__inner-wrapper">
                 <h1 className="title title--size-s login-form__title">Вход</h1>
                 <div className="login-form__inputs">
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="email">E&nbsp;–&nbsp;mail</label>
-                    <input type="email" id="email" placeholder="Адрес электронной почты" {...(register('email', {
-                      required: true,
+                    <input type="email" id="email" placeholder="Адрес электронной почты" {...register('email', {
+                      required: 'неверная почта',
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-                        message: ErrorMessage.EMAIL
+                        message: ErrorMessage.EMAIL,
                       },
                       onChange: onInputEmailChange
-                    }))} required onChange={onInputEmailChange}
+                    })} required onChange={onInputEmailChange} pattern='/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i'
                     />
-                    {errors?.email && (
-                      <div style={{ color: 'red' }}> {errors.email.message} </div>
-                    )}
+                    {errors?.email &&
+                      <span style={{ color: 'red' }}> {errors.email.message} </span>}
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">Пароль</label>
-                    <input type="password" id="password" name="password" placeholder="Пароль" required onChange={onInputPasswordChange} />
+                    <input type="password" id="password" maxLength={15} minLength={3} placeholder="Пароль" {...register('password', {
+                      required: 'некорректный пароль',
+                      // maxLength: 15,
+                      // minLength: 3
+                    })} required onChange={onInputPasswordChange}
+                    />
+                    {errors?.password &&
+                      <div style={{ color: 'red' }}> {errors.password.message} </div>}
                   </div>
                 </div>
                 <button className="btn btn--accent btn--general login-form__submit" type="submit">Войти</button>

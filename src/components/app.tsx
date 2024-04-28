@@ -8,7 +8,6 @@ import BookingQuestPage from '../pages/booking-quest-page';
 import FavoriteQuestPage from '../pages/favorite-quest-page';
 import ContactsPage from '../pages/contacts-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
-import Container from './container';
 
 export default function App() {
   return (
