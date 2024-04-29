@@ -7,12 +7,14 @@ import { ListDataNamePage, MainPageClass } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
 import { fetchQuestsCardPreview } from '../store/api-action';
 import { questsSelectors, questsActions } from '../store/slice/quests/quests';
+import EmptyFilter from '../components/empty-filter/empty-filter';
 
 export default function IndexPage() {
   const dispatch = useAppDispatch();
   const selectors = useAppSelector;
 
   const quests = selectors(questsSelectors.quests);
+
   useEffect(() => {
     dispatch(fetchQuestsCardPreview());
     dispatch(questsActions.selectActivePage({ activePage: ListDataNamePage.QUEST }));
@@ -47,7 +49,9 @@ export default function IndexPage() {
           </form>
         </div>
         <h2 className="title visually-hidden">Выберите квест</h2>
-        <QuestCards questCards={quests} />
+        {quests.length !== 0
+          ? <QuestCards questCards={quests} />
+          : <EmptyFilter />}
       </div>
     </Container>
   );

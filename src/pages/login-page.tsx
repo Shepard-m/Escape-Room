@@ -2,7 +2,7 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../hooks/indexStore';
 import { fetchUserLogin } from '../store/api-action';
 import Container from '../components/container';
-import { ListDataNamePage, MainPageClass, TextErrors } from '../const';
+import { ListDataNamePage, MainPageClass, OptionValidation, TextErrors } from '../const';
 import { useForm } from 'react-hook-form';
 import { TValidationFormLogin } from '../types/validation-form-login';
 import { toast } from 'react-toastify';
@@ -78,6 +78,10 @@ export default function LoginPage() {
                       minLength: {
                         value: 3,
                         message: 'Пароль меньше 3 символов'
+                      },
+                      pattern: {
+                        value: OptionValidation.PASSWORD.pattern,
+                        message: TextErrors.LOGIN_PASSWORD_TEXT
                       },
                       onChange: onInputPasswordChange
                     })} required

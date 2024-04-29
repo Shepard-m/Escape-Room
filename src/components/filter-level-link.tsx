@@ -1,5 +1,7 @@
 import { SyntheticEvent } from 'react';
 import { FilterLevelOption } from '../const';
+import { useAppSelector } from '../hooks/indexStore';
+import { questsSelectors } from '../store/slice/quests/quests';
 
 type TPropsSortLink = {
   FilterOption: typeof FilterLevelOption.ANY;
@@ -7,13 +9,16 @@ type TPropsSortLink = {
 }
 
 export default function FilterLevelLink({ FilterOption, handelSelectFilerLevelClick }: TPropsSortLink) {
+  const selectors = useAppSelector;
+
+  const currentFilterLevel = selectors(questsSelectors.currentFilterLevel);
 
   const onSelectFilter = (evt: SyntheticEvent<HTMLLabelElement>) => {
     handelSelectFilerLevelClick(evt.currentTarget.htmlFor);
   };
   return (
     <li className="filter__item">
-      <input type="radio" name="level" id={FilterOption.id} defaultChecked={FilterOption.id === FilterLevelOption.ANY.id} />
+      <input type="radio" name="level" id={FilterOption.id} defaultChecked={FilterOption.id === currentFilterLevel} checked={FilterOption.id === currentFilterLevel} />
       <label className="filter__label" htmlFor={FilterOption.id} onClick={onSelectFilter}>
         <span className="filter__label-text">{FilterOption.name}</span>
       </label>

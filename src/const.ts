@@ -222,6 +222,7 @@ export const OptionValidation = {
   PASSWORD: {
     max: 15,
     min: 3,
+    pattern: /^(?=.*\d)(?=.*[a-z])/
   },
   PHONE: {
     pattern: /^((\+7|7|8)+([0-9]){10})$/,
@@ -233,6 +234,7 @@ export const TextErrors = {
   BOOKING: 'Произошла ошибка бронирования мероприятия.',
   LOGIN_EMAILS: 'Некорректная почта.',
   LOGIN_PASSWORD: `Некорректный пароль. Длина пароля ${OptionValidation.PASSWORD.min}-${OptionValidation.PASSWORD.max} символов.`,
+  LOGIN_PASSWORD_TEXT: 'Пароль состоит минимум из одной буквы и цифры',
   LOGIN_PASSWORD_MIN: `Длина пароля должна быть больше ${OptionValidation.PASSWORD.min} символа`,
   LOGIN_PASSWORD_MAX: `Длина пароля должна быть меньше ${OptionValidation.PASSWORD.max} символа`,
   LOGOUT: 'Не удалось выйти из аккаунта',

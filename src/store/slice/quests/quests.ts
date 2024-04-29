@@ -49,7 +49,9 @@ const questsSlice = createSlice({
       state.currentFilterLevel = FilterLevelOption.ANY.id;
     },
     filterQuestsLevel: (state, action: PayloadAction<{ filter: string }>) => {
+
       state.quests = filteredLevelQuests(state.filterGenreQuests, action.payload.filter);
+      state.currentFilterLevel = action.payload.filter;
     },
     selectActivePage: (state, action: PayloadAction<{ activePage: string }>) => {
       state.activePage = action.payload.activePage;
