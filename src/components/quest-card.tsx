@@ -5,7 +5,7 @@ import { useAppDispatch } from '../hooks/indexStore';
 import { fetchFavoriteDeleteQuest } from '../store/api-action';
 import { favoriteActions } from '../store/slice/favorite/favorite';
 import { questsActions } from '../store/slice/quests/quests';
-import { translateLevel } from '../utils/utils';
+import { transData, translateLevel } from '../utils/utils';
 import { toast } from 'react-toastify';
 
 type TQuestCard = {
@@ -49,7 +49,7 @@ export default function QuestCard({ questCard, isFavorite, peopleCount, date, ti
       <div className="quest-card__content">
         <div className="quest-card__info-wrapper">
           <Link className="quest-card__link" to={`${AppRoute.QUEST_PAGE}/${questCard.id}`}>{questCard.title}</Link>
-          {isFavorite && <span className="quest-card__info">{`[${date as string}, ${time as string}. ${location as string}]`}</span>}
+          {isFavorite && <span className="quest-card__info">{`[${transData(date as string)}, ${time as string}. ${location as string}]`}</span>}
         </div>
         <ul className="tags quest-card__tags">
           <li className="tags__item">

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { GenreTranslate, LevelTranslate } from '../const';
+import { DataTranslate, GenreTranslate, LevelTranslate } from '../const';
 
 export function humanizeOrderData(date: string, format: string) {
   return date ? dayjs(date).format(format) : '';
@@ -30,5 +30,15 @@ export function translateGenre(genre: string) {
       return GenreTranslate.MYSTIC.rus;
     default:
       return genre;
+  }
+}
+export function transData(data: string) {
+  switch (data) {
+    case DataTranslate.TODAY.eng:
+      return DataTranslate.TODAY.rus;
+    case DataTranslate.TOMORROW.eng:
+      return DataTranslate.TOMORROW.rus;
+    default:
+      return data;
   }
 }

@@ -13,7 +13,7 @@ export default function FilterLevelLink({ FilterOption, handelSelectFilerLevelCl
   };
   return (
     <li className="filter__item">
-      <input type="radio" name="level" id={FilterOption.id} />
+      <input type="radio" name="level" id={FilterOption.id} defaultChecked={FilterOption.id === FilterLevelOption.ANY.id} />
       <label className="filter__label" htmlFor={FilterOption.id} onClick={onSelectFilter}>
         <span className="filter__label-text">{FilterOption.name}</span>
       </label>

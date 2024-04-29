@@ -1,15 +1,19 @@
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../hooks/indexStore';
 import { fetchUserLogin } from '../store/api-action';
 import Container from '../components/container';
-import { ErrorMessage, MainPageClass, TextErrors } from '../const';
+import { ListDataNamePage, MainPageClass, TextErrors } from '../const';
 import { useForm } from 'react-hook-form';
 import { TValidationFormLogin } from '../types/validation-form-login';
 import { toast } from 'react-toastify';
+import { questsActions } from '../store/slice/quests/quests';
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(questsActions.selectActivePage({ activePage: ListDataNamePage.FAVORITES }));
+  });
 
   const { register, handleSubmit, formState: { errors } } = useForm<TValidationFormLogin>();
 
@@ -25,6 +29,9 @@ export default function LoginPage() {
   function onSendUserDataSubmit() {
     dispatch(fetchUserLogin(userData))
       .unwrap()
+      .then(() => {
+        setUserData({ email: '', password: '' });
+      })
       .catch(() => {
         toast.error(TextErrors.LOGIN);
       });
@@ -49,24 +56,31 @@ export default function LoginPage() {
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="email">E&nbsp;–&nbsp;mail</label>
                     <input type="email" id="email" placeholder="Адрес электронной почты" {...register('email', {
-                      required: 'неверная почта',
+                      required: TextErrors.LOGIN_EMAILS,
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-                        message: ErrorMessage.EMAIL,
+                        message: TextErrors.LOGIN_EMAILS,
                       },
                       onChange: onInputEmailChange
-                    })} required onChange={onInputEmailChange} pattern='/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i'
+                    })} required
                     />
                     {errors?.email &&
                       <span style={{ color: 'red' }}> {errors.email.message} </span>}
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">Пароль</label>
-                    <input type="password" id="password" maxLength={15} minLength={3} placeholder="Пароль" {...register('password', {
+                    <input type="password" id="password" placeholder="Пароль" {...register('password', {
                       required: 'некорректный пароль',
-                      // maxLength: 15,
-                      // minLength: 3
-                    })} required onChange={onInputPasswordChange}
+                      maxLength: {
+                        value: 15,
+                        message: 'Пароль больше 15 символов'
+                      },
+                      minLength: {
+                        value: 3,
+                        message: 'Пароль меньше 3 символов'
+                      },
+                      onChange: onInputPasswordChange
+                    })} required
                     />
                     {errors?.password &&
                       <div style={{ color: 'red' }}> {errors.password.message} </div>}

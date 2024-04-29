@@ -16,7 +16,7 @@ export default function Header({ isLogin }: THeader) {
   const selectors = useAppSelector;
   const token = getToken();
   const dispatch = useAppDispatch();
-  const authorizationStatus = selectors(userSelectors.authorizationStatus);
+  // const user = selectors(userSelectors.user);
   const activePage = selectors(questsSelectors.activePage);
   const user = selectors(userSelectors.user);
 
@@ -52,7 +52,7 @@ export default function Header({ isLogin }: THeader) {
             <li className="main-nav__item" >
               <Link className={`link ${activePage === ListDataNamePage.CONTACTS ? 'active' : ''}`} to={AppRoute.CONTACTS} data-name={ListDataNamePage.CONTACTS} onClick={onSelectActivePageClick}>Контакты</Link>
             </li>
-            {authorizationStatus &&
+            {user &&
               <li className="main-nav__item">
                 <Link className={`link ${activePage === ListDataNamePage.FAVORITES ? 'active' : ''}`} to={AppRoute.FAVORITE} data-name={ListDataNamePage.FAVORITES} onClick={onSelectActivePageClick}>Мои бронирования</Link>
               </li>}

@@ -1,4 +1,4 @@
-import { AppRoute, DefaultValue, TextErrors } from '../const';
+import { AppRoute, DefaultValue, OptionValidation, TextErrors } from '../const';
 import BookingListDate from '../components/booking-list-date';
 import { TBooking } from '../types/booking';
 import { SyntheticEvent, useEffect, useState } from 'react';
@@ -85,10 +85,19 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
           <input type="text" id="name" placeholder="Имя" {...register('name', {
             required: TextErrors.NAME,
             pattern: {
-              value: /^[a-zA-Zа-яА-Я]{1,15}$/,
-              message: TextErrors.NAME
+              value: OptionValidation.NAME.pattern,
+              message: TextErrors.NAME,
             },
-          })} required onChange={onInputNameChange}
+            minLength: {
+              value: OptionValidation.NAME.min,
+              message: TextErrors.NAME_MIN
+            },
+            maxLength: {
+              value: OptionValidation.NAME.max,
+              message: TextErrors.NAME_MAX
+            },
+            onChange: onInputNameChange
+          })} required
           />
           {errors?.name &&
             <span style={{ color: 'red' }}> {errors.name.message} </span>}
@@ -97,20 +106,30 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
           <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>
           <input type="tel" id="tel" placeholder="Телефон" {...register('tel', {
             required: TextErrors.PHONE,
-            validate: {
-
-            }
-          })} required onChange={onInputPhoneChange} pattern="[А-Яа-яЁёA-Za-z'- ]{1,}"
+            pattern: {
+              value: OptionValidation.PHONE.pattern,
+              message: TextErrors.PHONE,
+            },
+            onChange: onInputPhoneChange
+          })} required
           />
-
           {errors?.tel &&
             <span style={{ color: 'red' }}> {errors.tel.message} </span>}
         </div>
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="person">Количество участников</label>
-          <input type="number" id="person" placeholder="Количество участников" min={countPeople[0]} max={countPeople[1]} {...register('person', {
-            required: `${TextErrors.PERSON} мин/мах количество игроков: ${countPeople[0]}/${countPeople[1]}`,
-          })} required onChange={onInputPeopleCountChange}
+          <input type="number" id="person" placeholder="Количество участников" {...register('person', {
+            required: TextErrors.PERSON,
+            min: {
+              value: countPeople[0],
+              message: `${TextErrors.PERSON_MIN} ${countPeople[0]}`
+            },
+            max: {
+              value: countPeople[1],
+              message: `${TextErrors.PERSON_MAX} ${countPeople[1]}`
+            },
+            onChange: onInputPeopleCountChange
+          })} required
           />
           {errors?.person &&
             <span style={{ color: 'red' }}> {errors.person.message} </span>}

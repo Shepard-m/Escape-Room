@@ -113,11 +113,6 @@ export const AuthorizationStatus = {
   UN_KNOWN: 'UNKNOWN',
 };
 
-export const ErrorMessage = {
-  EMAIL: 'an incorrect email has been entered',
-  password: 'an incorrect password has been entered',
-};
-
 export const DefaultValue = {
   TODAY: 'today',
   TOMORROW: 'tomorrow',
@@ -181,6 +176,16 @@ export const LevelTranslate = {
     eng: 'easy'
   },
 };
+export const DataTranslate = {
+  TODAY: {
+    rus: 'сегодня',
+    eng: 'today'
+  },
+  TOMORROW: {
+    rus: 'завтра',
+    eng: 'tomorrow'
+  },
+};
 
 export const GenreTranslate = {
   HORROR: {
@@ -205,14 +210,38 @@ export const GenreTranslate = {
   },
 };
 
+export const OptionValidation = {
+  NAME: {
+    max: 15,
+    min: 1,
+    pattern: /^[a-zA-Zа-яА-Я]{1,15}$/,
+  },
+  EMAIL: {
+    pattern: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
+  },
+  PASSWORD: {
+    max: 15,
+    min: 3,
+  },
+  PHONE: {
+    pattern: /^((\+7|7|8)+([0-9]){10})$/,
+  },
+};
+
 export const TextErrors = {
   LOGIN: 'Произошла ошибка авторизация.',
   BOOKING: 'Произошла ошибка бронирования мероприятия.',
   LOGIN_EMAILS: 'Некорректная почта.',
-  LOGIN_PASSWORD: 'Некорректный пароль. Длина пароля 3-15 символов.',
+  LOGIN_PASSWORD: `Некорректный пароль. Длина пароля ${OptionValidation.PASSWORD.min}-${OptionValidation.PASSWORD.max} символов.`,
+  LOGIN_PASSWORD_MIN: `Длина пароля должна быть больше ${OptionValidation.PASSWORD.min} символа`,
+  LOGIN_PASSWORD_MAX: `Длина пароля должна быть меньше ${OptionValidation.PASSWORD.max} символа`,
   LOGOUT: 'Не удалось выйти из аккаунта',
-  NAME: 'Некорректное имя. Длина имени 1-15 символов',
+  NAME: `Некорректное имя. Длина имени ${OptionValidation.NAME.min}-${OptionValidation.NAME.max} символов`,
+  NAME_MIN: `Длина имени должна быть больше ${OptionValidation.NAME.min} символа`,
+  NAME_MAX: `Длина имени должна быть меньше ${OptionValidation.NAME.max} символа`,
   PHONE: 'Некорректный телефон',
   PERSON: 'Некорректное количество участников',
+  PERSON_MIN: 'Минимальное кол-во участников:',
+  PERSON_MAX: 'Максимальное кол-во участников:',
   FAVORITE_DELETE: 'Не удалось удалить мероприятяие из избранного',
 };
