@@ -23,7 +23,7 @@ export default function HeaderButton({ isLogin, token }: THeaderButton) {
   }
 
   if (isLogin) {
-    return;
+    return <span />;
   }
 
   if (token) {

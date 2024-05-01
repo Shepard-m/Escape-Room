@@ -1,4 +1,4 @@
-import { AppRoute, DefaultValue, OptionValidation, TextErrors } from '../const';
+import { AppRoute, DefaultValue, OptionValidation, RequestStatus, TextErrors } from '../const';
 import BookingListDate from '../components/booking-list-date';
 import { TBooking } from '../types/booking';
 import { SyntheticEvent, useEffect, useState } from 'react';
@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { TFormBookingValidation } from '../types/form-booking';
+import { useSelector } from 'react-redux';
+import { bookingSelectors } from '../store/slice/booking/booking';
 
 type TFormBooking = {
   currentQuest: TBooking;
@@ -19,8 +21,11 @@ type TFormBooking = {
 export default function FormBooking({ currentQuest, countPeople, questId }: TFormBooking) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const selectors = useSelector;
 
   const { register, handleSubmit, formState: { errors } } = useForm<TFormBookingValidation>();
+
+  const statusBooking = selectors(bookingSelectors.statusBooking);
 
   const [formData, setFormData] = useState<TBookingResponseData>({
     placeId: currentQuest.id,
@@ -144,7 +149,7 @@ export default function FormBooking({ currentQuest, countPeople, questId }: TFor
           <span className="custom-checkbox__label" onClick={onInputWithChildrenClick}>Со&nbsp;мной будут дети</span>
         </label>
       </fieldset>
-      <button className="btn btn--accent btn--cta booking-form__submit" type="submit">
+      <button className="btn btn--accent btn--cta booking-form__submit" type="submit" disabled={statusBooking === RequestStatus.LOADING}>
         Забронировать
       </button>
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">

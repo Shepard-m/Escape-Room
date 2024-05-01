@@ -8,6 +8,8 @@ import { useParams } from 'react-router-dom';
 import { questSelectors } from '../store/slice/quest/quest';
 import Map from '../components/map';
 import FormBooking from '../components/form-booking';
+import { TBooking } from '../types/booking';
+import { TQuest } from '../types/quest';
 
 export default function BookingQuestPage() {
   const dispatch = useAppDispatch();
@@ -22,23 +24,12 @@ export default function BookingQuestPage() {
     ]);
   }, []);
 
-  const questsBooking = selectors(bookingSelectors.bookings);
+  const questsBooking = selectors(bookingSelectors.bookings) as TBooking[];
   const selectQuestBooking = selectors(bookingSelectors.selectQuestBooking);
-  const quest = selectors(questSelectors.currentQuest);
+  const quest = selectors(questSelectors.currentQuest) as TQuest;
 
-  if (quest === undefined) {
-    return;
-  }
 
-  if (questsBooking === undefined) {
-    return;
-  }
-
-  const currentQuest = questsBooking.find((item) => item.id === selectQuestBooking);
-
-  if (currentQuest === undefined) {
-    return;
-  }
+  const currentQuest = questsBooking.find((item) => item.id === selectQuestBooking) as TBooking;
 
   return (
     <Container mainClass={MainPageClass.BOOKING}>

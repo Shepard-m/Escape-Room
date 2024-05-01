@@ -222,7 +222,7 @@ export const OptionValidation = {
   PASSWORD: {
     max: 15,
     min: 3,
-    pattern: /^(?=.*\d)(?=.*[a-z])/
+    pattern: /^(?=.*[A-Za-zА-Яа-я])(?=.*\d).+$/
   },
   PHONE: {
     pattern: /^((\+7|7|8)+([0-9]){10})$/,

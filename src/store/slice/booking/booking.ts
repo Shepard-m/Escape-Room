@@ -49,6 +49,7 @@ const bookingSlice = createSlice({
   selectors: {
     bookings: (state) => state.bookings,
     selectQuestBooking: (state) => state.selectQuestBooking,
+    statusBooking: (state) => state.statusBooking,
   }
 });
 

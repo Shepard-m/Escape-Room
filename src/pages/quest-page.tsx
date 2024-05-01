@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/indexStore';
 import { fetchQuest } from '../store/api-action';
 import { questSelectors } from '../store/slice/quest/quest';
 import { translateGenre, translateLevel } from '../utils/utils';
+import { TQuest } from '../types/quest';
 
 export default function QuestPage() {
   const dispatch = useAppDispatch();
@@ -14,12 +15,9 @@ export default function QuestPage() {
   useEffect(() => {
     dispatch(fetchQuest(questId as string));
   }, [dispatch]);
-  const quest = selectors(questSelectors.currentQuest);
-  const genre = translateGenre(quest?.type as string);
-  const level = translateLevel(quest?.level as string);
-  if (quest === undefined) {
-    return;
-  }
+  const quest = selectors(questSelectors.currentQuest) as TQuest;
+  const genre = translateGenre(quest?.type);
+  const level = translateLevel(quest?.level);
 
   return (
     <Container mainClass={MainPageClass.QUEST}>

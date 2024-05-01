@@ -13,13 +13,13 @@ export default function FilterLevelLink({ FilterOption, handelSelectFilerLevelCl
 
   const currentFilterLevel = selectors(questsSelectors.currentFilterLevel);
 
-  const onSelectFilter = (evt: SyntheticEvent<HTMLLabelElement>) => {
-    handelSelectFilerLevelClick(evt.currentTarget.htmlFor);
+  const onSelectFilter = (evt: SyntheticEvent<HTMLInputElement>) => {
+    handelSelectFilerLevelClick(evt.currentTarget.id);
   };
   return (
     <li className="filter__item">
-      <input type="radio" name="level" id={FilterOption.id} defaultChecked={FilterOption.id === currentFilterLevel} checked={FilterOption.id === currentFilterLevel} />
-      <label className="filter__label" htmlFor={FilterOption.id} onClick={onSelectFilter}>
+      <input type="radio" name="level" id={FilterOption.id} checked={FilterOption.id === currentFilterLevel} onChange={onSelectFilter} />
+      <label className="filter__label" htmlFor={FilterOption.id} >
         <span className="filter__label-text">{FilterOption.name}</span>
       </label>
     </li>
