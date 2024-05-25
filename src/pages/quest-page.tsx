@@ -12,12 +12,17 @@ export default function QuestPage() {
   const dispatch = useAppDispatch();
   const selectors = useAppSelector;
   const { questId } = useParams();
+  console.log(questId);
   useEffect(() => {
     dispatch(fetchQuest(questId as string));
-  }, [dispatch]);
+  }, []);
   const quest = selectors(questSelectors.currentQuest) as TQuest;
   const genre = translateGenre(quest?.type);
   const level = translateLevel(quest?.level);
+
+  if (quest === undefined) {
+    return;
+  }
 
   return (
     <Container mainClass={MainPageClass.QUEST}>
