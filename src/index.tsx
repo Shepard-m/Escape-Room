@@ -16,7 +16,7 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename='/Escape-Room/'>
           <ToastContainer />
           <App />
         </BrowserRouter>

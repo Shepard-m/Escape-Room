@@ -28,14 +28,6 @@ export default function BookingQuestPage() {
   const selectQuestBooking = selectors(bookingSelectors.selectQuestBooking);
   const quest = selectors(questSelectors.currentQuest) as TQuest;
 
-  if (questsBooking === undefined) {
-    return;
-  }
-
-  if (quest === undefined) {
-    return;
-  }
-
   const currentQuest = questsBooking.find((item) => item.id === selectQuestBooking) as TBooking;
 
   return (

@@ -20,10 +20,6 @@ export default function QuestPage() {
   const genre = translateGenre(quest?.type);
   const level = translateLevel(quest?.level);
 
-  if (quest === undefined) {
-    return;
-  }
-
   return (
     <Container mainClass={MainPageClass.QUEST}>
       <div>

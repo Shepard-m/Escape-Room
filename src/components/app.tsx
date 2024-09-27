@@ -15,31 +15,31 @@ export default function App() {
       <Route path={AppRoute.INDEX_PAGE}>
         <Route
           index
-          element={<IndexPage />}
+          element={<IndexPage/>}
         />
         <Route
           path={`${AppRoute.QUEST_PAGE}/:questId`}
-          element={<QuestPage />}
+          element={<QuestPage/>}
         />
         <Route
           path={AppRoute.LOGIN_PAGE}
-          element={<ProtectedRoute onlyUnAuth><LoginPage /></ProtectedRoute>}
+          element={<ProtectedRoute onlyUnAuth><LoginPage/></ProtectedRoute>}
         />
         <Route
           path={`${AppRoute.BOOKING_PAGE}/:bookingId`}
-          element={<ProtectedRoute><BookingQuestPage /></ProtectedRoute>}
+          element={<ProtectedRoute><BookingQuestPage/></ProtectedRoute>}
         />
         <Route
           path={AppRoute.FAVORITE}
-          element={<ProtectedRoute><FavoriteQuestPage /></ProtectedRoute>}
+          element={<ProtectedRoute><FavoriteQuestPage/></ProtectedRoute>}
         />
         <Route
           path={AppRoute.CONTACTS}
-          element={<ContactsPage />}
+          element={<ContactsPage/>}
         />
         <Route
           path="*"
-          element={<NotFoundPage />}
+          element={<NotFoundPage/>}
         />
       </Route>
     </Routes>
