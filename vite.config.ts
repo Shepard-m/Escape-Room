@@ -12,5 +12,5 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/setupTests.ts'],
   },
-  base: '/Escape-Room'
+  base: '/Escape-Room/'
 });

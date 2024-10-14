@@ -124,8 +124,9 @@ export const DataFormat = {
 };
 
 export const IconPinMap = {
-  DEFAULT: '../markup/img/svg/pin-default.svg',
-  ACTIVE: '../markup/img/svg/pin-active.svg',
+  DEFAULT: 'img/svg/pin-default.svg',
+
+  ACTIVE: 'img/svg/pin-active.svg',
 };
 
 export const MapOptions = {
