@@ -16,7 +16,6 @@ export default function Header({ isLogin }: THeader) {
   const selectors = useAppSelector;
   const token = getToken();
   const dispatch = useAppDispatch();
-  // const user = selectors(userSelectors.user);
   const activePage = selectors(questsSelectors.activePage);
   const user = selectors(userSelectors.user);
 
